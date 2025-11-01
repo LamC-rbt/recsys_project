@@ -1,0 +1,6 @@
+torch
+requests
+numpy
+ir_measures
+tqdm
+pytest
