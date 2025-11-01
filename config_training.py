@@ -1,4 +1,4 @@
-from .config import SASRecTrainingConfig
+from config import SASRecTrainingConfig
 
 
 config = SASRecTrainingConfig(

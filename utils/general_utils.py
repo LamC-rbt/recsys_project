@@ -2,7 +2,7 @@ import importlib
 import torch
 from config import SASRecConfig, SerializableConfig
 from models.sasrec import SASRec
-from dataset_utils import get_num_items
+from utils.dataset_utils import get_num_items
 import os
 from pathlib import Path
 

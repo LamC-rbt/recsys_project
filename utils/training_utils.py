@@ -50,35 +50,35 @@ def train_one_epoch(model, train_loader, optimizer, device, num_items, batches_p
 
 
 def evaluate_and_checkpoint(
-    model, val_loader, config, device, best_metric, best_model_path, step, logger
+    model, val_loader, config, hyper_config, device, best_metric, best_model_path, step, logger
 ):
     """Evaluate model and optionally save checkpoint if improved."""
     logger.info("Evaluating model on validation set...")
     evaluation_result = evaluate(
         model,
         val_loader,
-        config.metrics,
-        config.recommendation_limit,
-        config.filter_rated,
+        hyper_config.metrics,
+        hyper_config.recommendation_limit,
+        hyper_config.filter_rated,
         device=device,
     )
 
-    metric_value = evaluation_result[config.val_metric]
-    logger.info(f"Validation result ({config.val_metric}): {metric_value:.6f}")
+    metric_value = evaluation_result[hyper_config.val_metric]
+    logger.info(f"Validation result ({hyper_config.val_metric}): {metric_value:.6f}")
 
     if metric_value > best_metric:
         logger.info(f"Validation metric improved: {best_metric:.6f} → {metric_value:.6f}")
         model_name = (
             f"checkpoints/gsasrec-{config.dataset_name}-"
-            f"step:{step}-negs:{config.negs_per_pos}-"
+            f"step:{step}-negs:{hyper_config.negs_per_pos}-"
             f"emb:{config.embedding_dim}-dropout:{config.dropout_rate}-"
             f"metric:{metric_value:.6f}.pt"
         )
 
         new_checkpoint_path = Path(model_name)
         if best_model_path is not None:
-            remove_old_checkpoint(Path(best_model_path))
-        save_checkpoint(model, new_checkpoint_path)
+            remove_old_checkpoint(Path(best_model_path), logger)
+        save_checkpoint(model, new_checkpoint_path, logger)
 
         return metric_value, str(new_checkpoint_path), 0  # reset patience
     else:

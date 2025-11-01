@@ -3,13 +3,14 @@ import os
 import logging
 from pathlib import Path
 
-from config import SASRecConfig, SASRecTrainingConfig
+
 
 import torch
 from utils.general_utils import load_config, build_model, get_device, ensure_dir_exists
 from utils.dataset_utils import get_train_dataloader, get_num_items, get_val_dataloader
 from utils.training_utils import evaluate_and_checkpoint, train_one_epoch
 #from torchinfo import summary
+from config import SASRecConfig, SASRecTrainingConfig
 
 import random
 import numpy as np
@@ -32,13 +33,13 @@ def set_seed(seed: int = 42) -> None:
 def main():
     parser = ArgumentParser(description="Train SASRec model.")
     parser.add_argument("--config", type=str, default="config_sasrec.py", help="Path to config file.")
-    parser.add_argument('--config_hyper', type)
+    parser.add_argument('--config_hyper', type=str, default="config_training.py", help="Path to config with training hyperparamters")
     args = parser.parse_args()
 
-    set_seed(args.seed)
 
     config: SASRecConfig = load_config(args.config)
     hyper_config: SASRecTrainingConfig = load_config(args.config_hyper)
+    set_seed(hyper_config.seed)
     logger.info(f"Loaded configuration: {args.config}")
 
     ensure_dir_exists("checkpoints", logger)
@@ -54,7 +55,7 @@ def main():
         config.dataset_name,
         batch_size=hyper_config.train_batch_size,
         max_length=config.sequence_length,
-        train_neg_per_positive=hyper_config.negs_per_pos,
+        num_negatives=hyper_config.negs_per_pos,
     )
     val_loader = get_val_dataloader(
         config.dataset_name,
@@ -82,7 +83,7 @@ def main():
         step += batches_per_epoch
 
         best_metric, best_model_path, patience_increase = evaluate_and_checkpoint(
-            model, val_loader, config, device, best_metric, best_model_path, step, logger=logger
+            model, val_loader, config, hyper_config, device, best_metric, best_model_path, step, logger=logger
         )
         steps_no_improve += patience_increase
 
@@ -92,7 +93,7 @@ def main():
             break
 
     logger.info("Training completed.")
-    ensure_dir_exists('hf_checkpoints')
+    ensure_dir_exists('hf_checkpoints', logger)
     model.save_pretrained("hf_checkpoints")
 
 

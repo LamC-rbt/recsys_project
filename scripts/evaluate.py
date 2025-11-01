@@ -115,7 +115,7 @@ def main():
         model=model,
         data_loader=test_loader,
         metrics=hyper_config.metrics,
-        limit=hyper_config.recommendation_limit,
+        top_k=hyper_config.recommendation_limit,
         filter_rated=hyper_config.filter_rated,
         device=device
     )
