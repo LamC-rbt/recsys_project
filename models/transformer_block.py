@@ -25,7 +25,7 @@ class MultiHeadAttention(nn.Module):
         V_ = torch.cat(V.chunk(self.num_heads, dim=2), dim=0)
 
         # Scaled dot-product attention
-        attn_scores = torch.matmul(Q_, K_)
+        attn_scores = torch.matmul(Q_, K_.transpose(1, 2))
         attn_scores = attn_scores / (K_.size(-1) ** 0.5)
 
         # Key masking
@@ -108,3 +108,4 @@ class TransformerBlock(nn.Module):
             x *= mask
 
         return x, attentions
+
