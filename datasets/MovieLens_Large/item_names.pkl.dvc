@@ -1,0 +1,5 @@
+outs:
+- md5: 74603461d64b8d3fa55d696adc20d594
+  size: 102452
+  hash: md5
+  path: item_names.pkl
