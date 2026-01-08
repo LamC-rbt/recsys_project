@@ -6,8 +6,6 @@ from recsys_project.utils.dataset_utils import get_num_items
 import os
 from pathlib import Path
 
-import random
-import numpy as np
 
 def load_config(config_file: str) -> SerializableConfig:
     spec = importlib.util.spec_from_file_location("config", config_file)
