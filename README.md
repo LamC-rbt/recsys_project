@@ -42,7 +42,7 @@ python scripts/train.py --config=recsys_project/configs/config_sasrec.py --confi
 
 ### Оценка качества
 ```bash
-python ./scripts/evaluate.py --config=recsys_project/configs/config_sasrec.py --config_hyper=recsys_project/configs/config_training.py --checkpoint=checkpoints/gsasrec-MovieLens_Large-step_10608-negs_1-emb_128-dropout_0.5-metric_0.063746.pt
+python scripts/evaluate.py --config=recsys_project/configs/config_sasrec.py --config_hyper=recsys_project/configs/config_training.py --checkpoint=checkpoints/best_model.pt
 ```
 В качестве чекпоинта можно также передать свою сохраненную модель с соответствующей конфигурацией.
 
