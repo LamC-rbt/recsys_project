@@ -7,11 +7,12 @@ from .general_utils import remove_old_checkpoint, save_checkpoint
 from .evaluation_utils import evaluate
 
 def train_one_epoch(model, train_loader, optimizer, device, num_items, batches_per_epoch, epoch_idx, logger):
-    """Run one epoch of training and return average loss."""
+    """Run one epoch of training and return average loss and losses per batch."""
     model.train()
     batch_iter = iter(train_loader)
     progress_bar = tqdm(range(batches_per_epoch), desc=f"Epoch {epoch_idx}")
     total_loss = 0.0
+    full_losses = []
 
     for batch_idx in progress_bar:
         positives, negatives = [tensor.to(device) for tensor in next(batch_iter)]
@@ -42,11 +43,12 @@ def train_one_epoch(model, train_loader, optimizer, device, num_items, batches_p
         optimizer.step()
 
         total_loss += loss.item()
+        full_losses.append(loss.item())
         avg_loss = total_loss / (batch_idx + 1)
         progress_bar.set_description(f"Epoch {epoch_idx} | Loss: {avg_loss:.4f}")
 
     logger.info(f"Epoch {epoch_idx} training completed. Average loss: {avg_loss:.4f}")
-    return avg_loss
+    return avg_loss, full_losses
 
 
 def evaluate_and_checkpoint(
@@ -80,7 +82,7 @@ def evaluate_and_checkpoint(
             remove_old_checkpoint(Path(best_model_path), logger)
         save_checkpoint(model, new_checkpoint_path, logger)
 
-        return metric_value, str(new_checkpoint_path), 0  # reset patience
+        return metric_value, str(new_checkpoint_path), 0, evaluation_result  # reset patience
     else:
         logger.info("Validation metric did not improve.")
-        return best_metric, best_model_path, 1
+        return best_metric, best_model_path, 1, evaluation_result
