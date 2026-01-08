@@ -6,11 +6,11 @@ from pathlib import Path
 
 
 import torch
-from utils.general_utils import load_config, build_model, get_device, ensure_dir_exists
-from utils.dataset_utils import get_train_dataloader, get_num_items, get_val_dataloader
-from utils.training_utils import evaluate_and_checkpoint, train_one_epoch
+from recsys_project.utils.general_utils import load_config, build_model, get_device, ensure_dir_exists
+from recsys_project.utils.dataset_utils import get_train_dataloader, get_num_items, get_val_dataloader
+from recsys_project.utils.training_utils import evaluate_and_checkpoint, train_one_epoch
 #from torchinfo import summary
-from config import SASRecConfig, SASRecTrainingConfig
+from recsys_project.configs.config import SASRecConfig, SASRecTrainingConfig
 
 import random
 import numpy as np

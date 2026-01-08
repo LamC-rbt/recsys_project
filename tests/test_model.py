@@ -2,8 +2,8 @@ import torch
 import pytest
 import os
 
-from models.sasrec import SASRec
-from config import SASRecConfig
+from recsys_project.models.sasrec import SASRec
+from recsys_project.configs.config import SASRecConfig
 
 
 @pytest.mark.parametrize("num_items, batch_size, seq_len, num_blocks", [(3, 2, 5, 1), (11, 7, 3, 2)])

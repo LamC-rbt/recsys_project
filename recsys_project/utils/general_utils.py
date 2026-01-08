@@ -1,8 +1,8 @@
 import importlib
 import torch
-from config import SASRecConfig, SerializableConfig
-from models.sasrec import SASRec
-from utils.dataset_utils import get_num_items
+from recsys_project.configs.config import SASRecConfig, SerializableConfig
+from recsys_project.models.sasrec import SASRec
+from recsys_project.utils.dataset_utils import get_num_items
 import os
 from pathlib import Path
 

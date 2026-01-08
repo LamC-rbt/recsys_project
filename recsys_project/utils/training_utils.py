@@ -3,8 +3,8 @@ from pathlib import Path
 import torch
 from tqdm import tqdm
 
-from utils.general_utils import remove_old_checkpoint, save_checkpoint
-from utils.evaluation_utils import evaluate
+from .general_utils import remove_old_checkpoint, save_checkpoint
+from .evaluation_utils import evaluate
 
 def train_one_epoch(model, train_loader, optimizer, device, num_items, batches_per_epoch, epoch_idx, logger):
     """Run one epoch of training and return average loss."""
@@ -70,9 +70,9 @@ def evaluate_and_checkpoint(
         logger.info(f"Validation metric improved: {best_metric:.6f} → {metric_value:.6f}")
         model_name = (
             f"checkpoints/gsasrec-{config.dataset_name}-"
-            f"step:{step}-negs:{hyper_config.negs_per_pos}-"
-            f"emb:{config.embedding_dim}-dropout:{config.dropout_rate}-"
-            f"metric:{metric_value:.6f}.pt"
+            f"step_{step}-negs_{hyper_config.negs_per_pos}-"
+            f"emb_{config.embedding_dim}-dropout_{config.dropout_rate}-"
+            f"metric_{metric_value:.6f}.pt"
         )
 
         new_checkpoint_path = Path(model_name)

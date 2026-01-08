@@ -2,14 +2,14 @@ import logging
 import os
 from argparse import ArgumentParser
 from pathlib import Path
-from config import SASRecConfig, SASRecTrainingConfig
+from recsys_project.configs.config import SASRecConfig, SASRecTrainingConfig
 
 import torch
 from torch import nn
 
-from utils.dataset_utils import get_num_items, get_test_dataloader
-from utils.evaluation_utils import evaluate
-from utils.general_utils import build_model, get_device, load_config
+from recsys_project.utils.dataset_utils import get_num_items, get_test_dataloader
+from recsys_project.utils.evaluation_utils import evaluate
+from recsys_project.utils.general_utils import build_model, get_device, load_config
 
 
 logging.basicConfig(

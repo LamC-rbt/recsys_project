@@ -1,6 +1,6 @@
 import torch
 import tqdm
-from models.sasrec import SASRec
+from recsys_project.models.sasrec import SASRec
 from ir_measures import ScoredDoc, Qrel
 import ir_measures
 

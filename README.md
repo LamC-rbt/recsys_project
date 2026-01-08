@@ -30,22 +30,23 @@
 ### Установка зависимостей
 ```bash
 pip install -r requirements.txt
+pip install -e .
 ```
 
 ### Обучение модели
 ```bash
-!PYTHONPATH=. python  ./scripts/train.py --config=./config_sasrec.py --config_hyper=./config_training.py
+python scripts/train.py --config=recsys_project/configs/config_sasrec.py --config_hyper=recsys_project/configs/config_training.py
 ```
 
 В качестве ***config*** и ***config_hyper*** возможно передать свою конфигурацию модели и гиперпараметры обучения соответственно.
 
 ### Оценка качества
 ```bash
-!PYTHONPATH=. python ./scripts/evaluate.py --config=./config_sasrec.py --config_hyper=./config_training.py --checkpoint=/content/recsys_project/checkpoints/gsasrec-MovieLens_Large-step:10848-negs:1-emb:128-dropout:0.5-metric:0.062810.pt
+python ./scripts/evaluate.py --config=recsys_project/configs/config_sasrec.py --config_hyper=recsys_project/configs/config_training.py --checkpoint=checkpoints/gsasrec-MovieLens_Large-step_10608-negs_1-emb_128-dropout_0.5-metric_0.063746.pt
 ```
 В качестве чекпоинта можно также передать свою сохраненную модель с соответствующей конфигурацией.
 
 ## Текущие метрики
 | Model  | Loss | Recall@1 | Recall@10 | NDCG@10 |
 |---------|------|-----------|------------|----------|
-| SASRec | BCE  | 0.0260    | 0.1504     | 0.0771   |
+| SASRec | BCE  | 0.0265    | 0.1505     | 0.0777   |

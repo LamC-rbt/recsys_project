@@ -2,8 +2,8 @@ import torch
 import pytest
 import os
 
-from models.sasrec import SASRec
-from config import SASRecConfig
+from recsys_project.models.sasrec import SASRec
+from recsys_project.configs.config import SASRecConfig
 
 
 class DummySASRec(SASRec):

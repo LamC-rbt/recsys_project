@@ -1,0 +1,11 @@
+stages:
+  prepare:
+    cmd: python datasets/MovieLens_Large/preprocess_ml1m.py
+    deps:
+    - datasets/MovieLens_Large/ml-1m.txt
+    - datasets/MovieLens_Large/preprocess_ml1m.py
+    outs:
+    - datasets/MovieLens_Large/dataset_stats.json
+    - datasets/MovieLens_Large/test
+    - datasets/MovieLens_Large/train
+    - datasets/MovieLens_Large/val
