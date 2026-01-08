@@ -9,3 +9,27 @@ stages:
     - datasets/MovieLens_Large/test
     - datasets/MovieLens_Large/train
     - datasets/MovieLens_Large/val
+  train:
+    cmd: python scripts/train.py 
+      --config=recsys_project/configs/config_sasrec.py 
+      --config_hyper=recsys_project/configs/config_training.py
+    deps:
+    - recsys_project/configs/config.py
+    - recsys_project/configs/config_sasrec.py
+    - recsys_project/configs/config_training.py
+    - recsys_project/utils/training_utils.py
+    - scripts/train.py
+    outs:
+    - checkpoints
+    - hf_checkpoints
+  evaluate:
+    cmd: python scripts/evaluate.py 
+      --config=recsys_project/configs/config_sasrec.py 
+      --config_hyper=recsys_project/configs/config_training.py 
+      --checkpoint=checkpoints/best_model.pt
+    deps:
+    - recsys_project/configs/config.py
+    - recsys_project/configs/config_sasrec.py
+    - recsys_project/configs/config_training.py
+    - recsys_project/utils/evaluation_utils.py
+    - scripts/evaluate.py

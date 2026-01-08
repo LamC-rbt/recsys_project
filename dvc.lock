@@ -31,3 +31,65 @@ stages:
       md5: c1a01737a7975c324789c3a13289d2e2.dir
       size: 359374
       nfiles: 2
+  train:
+    cmd: python scripts/train.py 
+      --config=recsys_project/configs/config_sasrec.py 
+      --config_hyper=recsys_project/configs/config_training.py
+    deps:
+    - path: recsys_project/configs/config.py
+      hash: md5
+      md5: 7a16506435127887c4e3e36027f833a7
+      size: 4831
+    - path: recsys_project/configs/config_sasrec.py
+      hash: md5
+      md5: c3a24db31fb75bde932b848da090bef7
+      size: 262
+    - path: recsys_project/configs/config_training.py
+      hash: md5
+      md5: b52aee2d25ff9b7b4b93ac0b8f79fabe
+      size: 167
+    - path: recsys_project/utils/training_utils.py
+      hash: md5
+      md5: cff7c668d11573b391e149b9aec22fd7
+      size: 3532
+    - path: scripts/train.py
+      hash: md5
+      md5: a1b7b97e8816584b15b453487510d0d1
+      size: 6297
+    outs:
+    - path: checkpoints
+      hash: md5
+      md5: 3748f5d0c3c11ef8b0b1284fe5c30342.dir
+      size: 5071438
+      nfiles: 2
+    - path: hf_checkpoints
+      hash: md5
+      md5: fbefb834c048a41a275f7d07e67e5c0b.dir
+      size: 2531035
+      nfiles: 2
+  evaluate:
+    cmd: python scripts/evaluate.py 
+      --config=recsys_project/configs/config_sasrec.py 
+      --config_hyper=recsys_project/configs/config_training.py 
+      --checkpoint=checkpoints/best_model.pt
+    deps:
+    - path: recsys_project/configs/config.py
+      hash: md5
+      md5: 7a16506435127887c4e3e36027f833a7
+      size: 4831
+    - path: recsys_project/configs/config_sasrec.py
+      hash: md5
+      md5: c3a24db31fb75bde932b848da090bef7
+      size: 262
+    - path: recsys_project/configs/config_training.py
+      hash: md5
+      md5: b52aee2d25ff9b7b4b93ac0b8f79fabe
+      size: 167
+    - path: recsys_project/utils/evaluation_utils.py
+      hash: md5
+      md5: 4ada9d39de6a2d68e5148540e13cc4f5
+      size: 2431
+    - path: scripts/evaluate.py
+      hash: md5
+      md5: 89bd4dd2750082e6bb1932e066ccc490
+      size: 5137

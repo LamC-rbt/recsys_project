@@ -9,3 +9,4 @@ pytest
 dvc==3.66.0
 PyDrive2==1.21.3
 dvc-gdrive==3.0.1
+mlflow
