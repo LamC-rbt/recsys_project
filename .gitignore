@@ -3,3 +3,4 @@ __pycache__
 /checkpoints
 /hf_checkpoints
 mlruns
+csv
