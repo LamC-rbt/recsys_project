@@ -41,22 +41,8 @@ def load_model_checkpoint(
         state = torch.load(str(checkpoint_path), map_location=map_location)
         model.load_state_dict(state)
         logger.info("Successfully loaded local checkpoint.")
-    # elif hub_model_name:
-    #     logger.info(f"No local checkpoint found at {checkpoint_path}. Downloading from Hugging Face Hub: '{hub_model_name}'")
-    #     # Example: if your model supports a from_pretrained, you might do:
-    #     # model = ModelClass.from_pretrained(hub_model_name)
-    #     # But assuming build_model and state dict approach:
-    #     from huggingface_hub import hf_hub_download  # optional dependency
-    #     try:
-    #         # Download the file from HF
-    #         hf_file = hf_hub_download(repo_id=hub_model_name, filename=checkpoint_path.name)
-    #         logger.info(f"Downloaded hub checkpoint to {hf_file}")
-    #         state = torch.load(hf_file, map_location=map_location)
-    #         model.load_state_dict(state)
-    #         logger.info("Successfully loaded weights from Hugging Face Hub.")
-    #     except Exception as e:
-    #         logger.error(f"Failed to download or load weights from hub: {e}")
-    #         raise
+    elif hub_model_name:
+        raise NotImplementedError("Loading from Hugging Face is not supported")
     else:
         logger.error(f"Neither local checkpoint found at {checkpoint_path} nor hub model name provided.")
         raise FileNotFoundError(f"Checkpoint does not exist: {checkpoint_path}")
