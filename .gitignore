@@ -4,3 +4,4 @@ __pycache__
 /hf_checkpoints
 mlruns
 csv
+model-store

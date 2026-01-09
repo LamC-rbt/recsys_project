@@ -71,7 +71,7 @@ python scripts/evaluate.py --config=recsys_project/configs/config_sasrec.py --co
 В качестве чекпоинта можно также передать свою сохраненную модель с соответствующей конфигурацией.
 
 ### Docker
-Получить Docker образ можно скачав его с [Dockerhub][https://hub.docker.com/r/lamcrbt/ml-app]
+Получить Docker образ можно скачав его с [Dockerhub](https://hub.docker.com/r/lamcrbt/ml-app)
 
 ```
 docker pull lamcrbt/ml-app:v1
@@ -83,14 +83,14 @@ docker build -t ml-app:v1 .
 
 Чтобы запустить образ, скачанный с Dockerhub выполните команду
 ```
-sudo docker run --rm -v $(pwd)/csv:/data  lamcrbt/ml-app:v1 \
+docker run --rm -v $(pwd)/csv:/data  lamcrbt/ml-app:v1 \
     --top_k=10 \
     --input_path=/data/input.csv --output_path=/data/output.csv 
 ```
 
 Если собрали docker образ сами
 ```
-sudo docker run --rm -v $(pwd)/csv:/data  ml-app:v1 \
+docker run --rm -v $(pwd)/csv:/data  ml-app:v1 \
     --top_k=10 \
     --input_path=/data/input.csv --output_path=/data/output.csv 
 ```
@@ -99,6 +99,51 @@ sudo docker run --rm -v $(pwd)/csv:/data  ml-app:v1 \
 * --input_path=/data/input.csv - путь, в котором хранятся входные данные модели (на каждой строчке находится последовательность взаимодействий пользователей, разделенных ",". Например, 968,962,161,199,2003)
 * --output_path=/data/output.csv - путь до csv-файла с top-k предсказаниями для каждого пользователя. Имеет такой же формат как и у входных данных.
 * Необходимо пробросить корректный путь в docker. -v PATH_TO_INPUT_FOLDER:/data
+
+### TorchServe
+Создайте директорию, если ее еще нет, где будет храниться .mar архив.
+```bash
+mkdir -p torchserve/model-store
+```
+Затем соберите .mar архив, в котором будет находиться информация о модели, необходимая для инициализации в handler.py на сервере
+```
+torch-model-archiver   --model-name sasrec   --version 1.0 \
+    --serialized-file checkpoints/best_model.pt   --handler torchserve/handler.py \
+    --extra-files "recsys_project/configs/config_sasrec.py,datasets/MovieLens_Large/dataset_stats.json" \
+    --export-path torchserve/model-store --force
+```
+
+Чтобы собрать docker, выполните следующую команду
+```
+docker build -f torchserve/Dockerfile.torchserve -t sasrec-serve:v1 .
+```
+
+Для запуска докера отнаследованного от torchserve выполните. (Выставите другие порты, если эти заняты)
+```
+docker run -d -p 8068:8080 -p 8069:8081 sasrec-serve:v1
+```
+
+Чтобы отправить свой запрос выполните
+```
+curl -X POST http://localhost:8068/predictions/sasrec \
+    -H "Content-Type: application/json" \
+    --data-binary @<PATH_TO_JSON_FOLDER>/input.json
+```
+
+На входе ожидается json файл следующего вида:
+```json
+{
+    "item_sequence": [560,280,9,1464,493,227,229]
+}
+```
+По ключу `item_sequence` находится список взаимодействий пользователя. На выходе появится тоже json-файл с ключем `recommendations`. В нем находится список из 10-ти рекомендуемых моделью айтемов.
+
+```json
+{
+    "recommendations": [1,2,3,4,5,6,7,8,9,10]
+}
+```
+
 
 ## Текущие метрики
 | Model  | Loss | Recall@1 | Recall@10 | NDCG@10 |
