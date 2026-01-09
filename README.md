@@ -36,6 +36,13 @@ pip install -e .
 ### Данные для обучения и чекпоинты моделей
 Версионирование данных и моделей машинного обучения производится с помощью инструмента DVC. Сами данные и модели находятся на удаленном хранилище [Google Drive](https://drive.google.com/drive/folders/16f4rf9NXtGX4yh2KIUgndEgae26Nh_JQ?usp=drive_link). Чтобы получить к ним доступ, необходимо последовать [инструкции](https://github.com/treeverse/dvc/issues/10516#issuecomment-2289652067).
 
+Необходимо добавить файл config.local в директории .dvc, используя значения, полученные после прохождения инструкции, указанной выше
+```
+['remote "storage"']
+    gdrive_client_id = <YOUR CLIENT ID>
+    gdrive_client_secret = <YOUR SECRET>
+```
+
 Чтобы подтянуть данные из удаленного хранилища выполните команду
 ``` bash
 dvc pull
