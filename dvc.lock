@@ -38,8 +38,8 @@ stages:
     deps:
     - path: recsys_project/configs/config.py
       hash: md5
-      md5: 7a16506435127887c4e3e36027f833a7
-      size: 4831
+      md5: 7598c313da9fedb14e5b73b74c85b248
+      size: 3250
     - path: recsys_project/configs/config_sasrec.py
       hash: md5
       md5: c3a24db31fb75bde932b848da090bef7
@@ -75,8 +75,8 @@ stages:
     deps:
     - path: recsys_project/configs/config.py
       hash: md5
-      md5: 7a16506435127887c4e3e36027f833a7
-      size: 4831
+      md5: 7598c313da9fedb14e5b73b74c85b248
+      size: 3250
     - path: recsys_project/configs/config_sasrec.py
       hash: md5
       md5: c3a24db31fb75bde932b848da090bef7
@@ -91,5 +91,5 @@ stages:
       size: 2431
     - path: scripts/evaluate.py
       hash: md5
-      md5: 89bd4dd2750082e6bb1932e066ccc490
-      size: 5137
+      md5: c9f53488c26472fa29c42be857cb7a10
+      size: 4248
