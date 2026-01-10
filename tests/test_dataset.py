@@ -9,7 +9,7 @@ def dataset_file():
 
 
 @pytest.mark.skipif(
-    not os.path.exists(dataset_file()),
+    not os.path.exists("datasets/MovieLens_Large/ml-1m.txt"),
     reason="Dataset not available"
 )
 def test_file_format(dataset_file):
