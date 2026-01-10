@@ -125,6 +125,11 @@ torch-model-archiver   --model-name sasrec   --version 1.0 \
 docker build -f torchserve/Dockerfile.torchserve -t sasrec-serve:v1 .
 ```
 
+Эти шаги можно пропустить, загрузив Docker из [Dockerhub](https://hub.docker.com/r/lamcrbt/sasrec-serve). В этом случае далее следует использовать `lamcrbt/sasrec-serve:v1` вместо `sasrec-serve:v1`
+```
+docker pull lamcrbt/sasrec-serve:v1
+```
+
 Для запуска докера отнаследованного от torchserve выполните. (Выставите другие порты, если эти заняты)
 ```
 docker run -d -p 8068:8080 -p 8069:8081 sasrec-serve:v1
@@ -135,6 +140,13 @@ docker run -d -p 8068:8080 -p 8069:8081 sasrec-serve:v1
 curl -X POST http://localhost:8068/predictions/sasrec \
     -H "Content-Type: application/json" \
     --data-binary @<PATH_TO_JSON_FOLDER>/input.json
+```
+
+Можно также отправить запрос в виде строки.
+```
+curl -X POST http://localhost:8068/predictions/sasrec \
+    -H "Content-Type: application/json" \
+    --data-binary '{"item_sequence": [560,280,9,1464,493,227,229]}'
 ```
 
 На входе ожидается json файл следующего вида:
